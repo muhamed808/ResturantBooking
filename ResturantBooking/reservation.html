@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <title>Restaurant Booking</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Reservation</h1>
+
+      <form id="booking-form">
+        <label>Name:</label><br />
+        <input type="text" name="name" required /><br />
+
+        <label>Email:</label><br />
+        <input type="email" name="email" required /><br />
+
+        <label>Phone:</label><br />
+        <input type="text" name="phone" required /><br />
+
+        <label>Guests:</label><br />
+        <select name="guests" required>
+          <option value="" disabled selected>Select guests</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="11">+7 We’ll be in touch to confirm</option>
+        </select><br />
+
+        <label>Date & Time:</label><br />
+        <input type="datetime-local" name="datetime" required /><br />
+
+        <label>Special Requests:</label><br />
+        <textarea name="requests"></textarea><br />
+
+        <button type="submit">Submit Reservation</button>
+      </form>
+
+      <div id="confirmation" style="display:none; margin-top: 20px; font-weight: bold; color: green;">
+        ✅ Thank you! Your table is booked.<br />
+        📧 You’ll receive a confirmation email shortly from the restaurant.
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("booking-form");
+      const confirmation = document.getElementById("confirmation");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch("http://localhost:5678/webhook-test/restaurant-booking", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+            form.reset();
+            confirmation.style.display = "block";
+          } else {
+            alert("Something went wrong. Please try again.");
+          }
+        } catch (err) {
+          alert("Submission failed. Please try again later.");
+        }
+      });
+    </script>
+  </body>
+</html>
