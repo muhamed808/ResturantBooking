@@ -58,7 +58,7 @@
         const data = Object.fromEntries(formData.entries());
 
         try {
-          const response = await fetch("http://localhost:5678/webhook/restaurant-booking", {
+          const response = await fetch("http://localhost:5678/webhook-test/restaurant-booking", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
