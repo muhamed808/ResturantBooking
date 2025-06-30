@@ -41,10 +41,12 @@
         <button type="submit">Submit Reservation</button>
       </form>
 
-      <div id="confirmation" style="display:none; margin-top: 20px; font-weight: bold; color: green;">
-        ✅ Thank you! Your table is booked.<br />
-        📧 You’ll receive a confirmation email shortly from the restaurant.
-      </div>
+        <div id="confirmation" class="confirmation-box">
+          <span class="close-btn" onclick="document.getElementById('confirmation').style.display='none'">×</span>
+          <p>✅ Thank you for your reservation at <strong>Olive Garden Bistro</strong>!</p>
+          <p> A confirmation email has been sent to your inbox.</p>
+        </div>
+
     </div>
 
     <script>
@@ -58,7 +60,7 @@
         const data = Object.fromEntries(formData.entries());
 
         try {
-          const response = await fetch("http://localhost:5678/webhook-test/restaurant-booking", {
+          const response = await fetch("https://muhamedqg.app.n8n.cloud/webhook/restaurant-booking", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
